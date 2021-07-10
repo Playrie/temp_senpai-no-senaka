@@ -5,7 +5,7 @@ from .models import RestRequest,Schedule
 
 class RestRequestAdmin(admin.ModelAdmin):
 
-    list_display = ('kerbero_id', 'head_name', 'start_date')
+    list_display = ('kerbero_id', 'head_name', 'date')
 
 
 class ScheduleAdmin(admin.ModelAdmin):
