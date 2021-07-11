@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, time
 from django.db.models import Q
 
 
-from .functions import submit_rest_requests,get_scheduls
+from .functions import submit_rest_requests,get_schedules
 
 
 @api_view(['POST'])  # POSTやなんやら色々設定できる。
@@ -28,9 +28,6 @@ def register_rest_requests(request):
 
 
 @api_view(['POST'])  # POSTやなんやら色々設定できる。
-def get_rest_scheduls(request):
-    val = get_scheduls(request.data)
+def get_rest_schedules(request):
+    val = get_schedules(request.data)
     return Response(val)
-
-
-
