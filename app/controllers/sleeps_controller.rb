@@ -102,18 +102,14 @@ class SleepsController < ApplicationController
         shift = []
         un_schedules.each do |u|
             hash = {:date => u.date}
-            if u.start_time == "-----"
-                hash[:request] = false
-                hash[:start_time] = ""
-                hash[:end_time] = ""
-            else
+            if !u.start_time == "-----"
                 hash[:request] = true
                 hash[:start_time] = u.start_time
                 hash[:end_time] = u.end_time
             end
             shift.push(hash)
-            # u.is_confirmed = true
-            # u.save
+            u.is_confirmed = true
+            u.save
         end
         data = {:kerbero_id => current_user.kerbero_id, :head_name => current_user.position, :request => shift}
         json = data.to_json

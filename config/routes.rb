@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   post 'kerberos/sleep/confirm', to: 'sleeps#confirm'
   # エサログ
   get 'kerberos/eatlog', to: 'eats#index'
+  get 'kerberos/eatlog/new', to: 'eats#new'
+  get 'kerberos/eatlog/create', to: 'eats#create'
   # マッチング
   get 'kerberos/matching', to: 'matchings#index'
   get 'kerberos/matching/following', to: 'matchings#following'
