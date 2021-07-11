@@ -1,0 +1,36 @@
+<table>
+    <%= form_tag(kerberos_update_path, method: :post) do %>
+        <tr>
+            <th>ユーザー名</th>
+            <td><%= text_field_tag :name, @kerbero.name %></td>
+        </tr>
+        <tr>
+            <th>性別</th>
+            <td>
+                <select name="sex_num">
+                    <option value=0 <%= "selected" if @kerbero.sex_num == 0 %>>雄</option>
+                    <option value=1 <%= "selected" if @kerbero.sex_num == 1 %>>雌</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>年齢</th>
+            <td><%= telephone_field_tag :age, @kerbero.age %></td>
+        </tr>
+        <tr>
+            <th>新規パスワード（最低6文字）</th>
+            <td><%= password_field_tag :common_password %></td>
+        </tr>
+        <tr>
+            <th>新規パスワード（確認用）</th>
+            <td><%= password_field_tag :confirm_password %></td>
+        </tr>
+        <tr>
+            <th>今のパスワード</th>
+            <td><%= password_field_tag :old_password %></td>
+        </tr>
+        <tr>
+            <td colspan="2"><%= submit_tag :編集 %></td>
+        </tr>
+    <% end %>
+</table>

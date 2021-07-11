@@ -1,0 +1,27 @@
+<header>
+    <h2>(仮)</h2>
+    <ul>
+        <% if (controller.controller_name == "tops" || controller.controller_name == "kerberos" || controller.controller_name == "heads" ) && controller.action_name == "index" %>
+            <li></li>
+        <% else %>
+            <li></li>
+            <% if user_signed_in? %>
+                <li><%= link_to "トップへ", head_path %></li>
+            <% elsif session[:kerbero_id] %>
+                <li><%= link_to "トップへ", kerberos_path %></li>
+            <% else %>
+                <li><%= link_to "トップへ", root_path %></li>
+            <% end %>
+        <% end %>
+        <% if user_signed_in? %>
+            <li><%= link_to "頭の情報の編集", edit_user_registration_path %></li>
+            <li><%= link_to "頭のサインアウト", destroy_user_session_path, method: :delete %></li>
+        <% elsif session[:kerbero_id] %>
+            <li><%= link_to "ユーザー情報の編集", kerberos_edit_path %></li>
+            <li><%= link_to "サインアウト", kerberos_logout_path, method: :post %></li>
+        <% else %>
+            <li><%= link_to "サインイン", kerberos_login_path %></li>
+            <li><%= link_to "サインアップ",  kerberos_signup_path %></li>
+        <% end %>
+    </ul>
+</header>

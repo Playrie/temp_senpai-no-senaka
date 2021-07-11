@@ -1,0 +1,25 @@
+<%= link_to "異性一覧に戻る", kerberos_matching_path%>
+<h4>
+    <%= @kerbero1.name + @keisho %>　<%= @kerbero1.age.to_s + "歳" unless @kerbero1.age.blank? %>
+</h4>
+
+<% if @is_followed %>
+    <%= link_to "フォローを解除", kerberos_matching_follow_path(:id => @kerbero1.id), method: :post %>
+<% else %>
+    <%= link_to "フォローする", kerberos_matching_follow_path(:id => @kerbero1.id), method: :post %>
+<% end %>
+
+<table>
+    <tr>
+        <th colspan="2">連絡先</th>
+    </tr>
+    <tr>
+        <td>左<%= @kerbero1.name + @keisho %></td><td><%= @left_email %></td>
+    </tr>
+    <tr>
+        <td>中<%= @kerbero1.name + @keisho %></td><td><%= @center_email %></td>
+    </tr>
+    <tr>
+        <td>右<%= @kerbero1.name + @keisho %></td><td><%= @right_email %></td>
+    </tr>
+</table>

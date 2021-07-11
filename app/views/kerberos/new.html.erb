@@ -1,0 +1,25 @@
+<table>
+    <%= form_for(@kerbero) do |f| %>
+        <tr>
+            <th>ユーザー名</th>
+            <td><%= f.text_field :name %></td>
+        </tr>
+        <tr>
+            <th>性別</th>
+            <td>
+                <%= f.select :sex_num, {"雄":0, "雌":1} %>
+            </td>
+        </tr>
+        <tr>
+            <th>パスワード（最低6文字）</th>
+            <td><%= f.password_field :common_password %></td>
+        </tr>
+        <tr>
+            <th>パスワード（確認用）</th>
+            <td><%= f.password_field :confirm_password %></td>
+        </tr>
+        <tr>
+            <td colspan="2"><%= f.submit :ログイン %></td>
+        </tr>
+    <% end %>
+</table>

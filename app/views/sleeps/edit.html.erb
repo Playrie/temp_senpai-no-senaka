@@ -1,0 +1,101 @@
+<h3>睡眠シフト</h3>
+
+<%= @year %>年<%= @month %>月<br>
+
+<%= link_to "全体の登録状況を見る", kerberos_sleep_path %><br>
+
+<table class="calendar">
+    <tr>
+        <th>　日</th><th>　月</th><th>　火</th><th>　水</th><th>　木</th><th>　金</th><th>　土</th>
+    </tr>
+    <tr>
+    <% if @first_wday != 0 %>    
+        <% for num in 1..@first_wday do %>
+            <td></td>
+        <% end %>
+    <% end %>
+    <% for num in @date_list do %>
+        <td>
+        <p><%= num %></p>
+        <div>
+        <%= form_tag(kerberos_sleep_create_path, method: :post) do %>
+            <%= hidden_field_tag :date, format("%04d-%02d-%02d",@year, @month, num) %>
+            <% if @un_schedules[num-1].blank? %>
+                <% text = "未定" %>
+                <% start_hour = -2 %>
+                <% start_minute = -1 %>
+                <% end_hour = -1 %>
+                <% end_minute = -1 %>
+            <% elsif @un_schedules[num-1].start_time == "-----" %>
+                <% text = "希望無し" %>
+                <% start_hour = -1 %>
+                <% start_minute = -1 %>
+                <% end_hour = -1 %>
+                <% end_minute = -1 %>
+            <% else %>
+                <% starts = @un_schedules[num-1].start_time.split(":") %>
+                <% start_hour = starts[0].to_i %>
+                <% start_minute = starts[1].to_i %>
+                <% ends = @un_schedules[num-1].end_time.split(":") %>
+                <% end_hour = ends[0].to_i %>
+                <% end_minute = ends[1].to_i %>
+                <% text = @un_schedules[num-1].start_time + "-" + @un_schedules[num-1].end_time %>
+            <% end %> 
+            <p>
+                就寝
+                <select name="hour1">
+                    <option value=-2>未</option>
+                    <!-- <option value=-1 <%= "selected" if start_hour == -1 %>>無</option> -->
+                    <% for i in 0..23 do %>
+                        <option value=<%= i %> <%= "selected" if i == start_hour %>><%= format("%02d",i) %></option>
+                    <% end %>
+                </select>:
+                <select name="minute1">
+                    <% if start_hour == -1 %>
+                        <!-- <option value=-1 >無</option> -->
+                    <% end %>
+                    <% for i in 0..5 do %>
+                        <option value=<%= i*10 %> <%= "selected" if i*10 == start_minute %>><%= format("%02d",i*10) %></option>
+                    <% end %>
+                </select>
+            </p>
+            <p>
+                起床
+                <select name="hour2">
+                    <option value=-2>未</option>
+                    <!-- <option value=-1 <%= "selected" if start_hour == -1 %>>無</option> -->
+                    <% for i in 6..31 do %>
+                        <option value=<%= i %> <%= "selected" if i == end_hour %>><%= format("%02d",i) %></option>
+                    <% end %>
+                </select>:
+                <select name="minute2">
+                    <% if start_hour == -1 %>
+                        <!-- <option value=-1 >無</option> -->
+                    <% end %>
+                    <% for i in 0..5 do %>
+                        <option value=<%= i*10 %> <%= "selected" if i*10 == end_minute %>><%= format("%02d",i*10) %></option>
+                    <% end %>
+                </select>
+            </p>
+            <p><%= text %></p>
+            <%= submit_tag "決定" %>
+        <% end %>
+        </div>
+        </td>
+        <% if (num + @first_wday - 1).modulo(7) == 6 %>
+            </tr>
+            <% if num != @date_list.last %>
+                <tr>
+            <% end %>
+        <% end %>
+    <% end %>
+    <% if @end_wday != 6 %>
+        <% for num in @end_wday..5 do %>
+            <td></td>
+        <% end %>
+        </tr>
+    <% end %>
+</table><br>
+
+<%= link_to "全体の登録状況を見る", kerberos_sleep_path %><br><br>
+<%= link_to "登録を確定する", kerberos_sleep_confirm_path, method: :post %><br><br>

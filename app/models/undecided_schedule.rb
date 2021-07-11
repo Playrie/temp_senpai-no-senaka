@@ -1,0 +1,2 @@
+class UndecidedSchedule < ApplicationRecord
+end

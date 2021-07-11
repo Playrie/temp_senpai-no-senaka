@@ -1,0 +1,78 @@
+<h3>睡眠シフト</h3>
+
+<%= @year %>年<%= @month %>月
+
+<table class="calendar">
+    <tr>
+        <th></th><th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+    </tr>
+    <tr>
+        <td>
+            <%= link_to "週の予定", kerberos_sleep_show_path(:date => Date.new(@year,@month,1) - Date.new(@year,@month,1).wday ) %>
+        </td>
+    
+    <% if @first_wday != 0 %>    
+        <% for num in 1..@first_wday do %>
+            <td></td>
+        <% end %>
+    <% end %>
+    <% weekday = 8 %>
+    <% for num in @date_list do %>
+        <td align="right">
+            <b><%= num %></b><br>
+            左：
+            <% if @un_schedules[num - 1][0].blank? %>
+                未入力
+            <% else %>
+                <!-- <%= @un_schedules[num - 1][0].start_time %>-<%= @un_schedules[num - 1][0].end_time %> -->
+                <% if @un_schedules[num - 1][0].is_confirmed %>
+                    確定済
+                <% else %>
+                    仮登録
+                <% end %>
+            <% end %><br>
+            中：
+            <% if @un_schedules[num - 1][1].blank? %>
+                未入力
+            <% else %>
+                <!-- <%= @un_schedules[num - 1][1].start_time %>-<%= @un_schedules[num - 1][1].end_time %> -->
+                <% if @un_schedules[num - 1][1].is_confirmed %>
+                    確定済
+                <% else %>
+                    仮登録
+                <% end %>
+            <% end %><br>
+            右：
+            <% if @un_schedules[num - 1][2].blank? %>
+                未入力
+            <% else %>
+                <!-- <%= @un_schedules[num - 1][2].start_time %>-<%= @un_schedules[num - 1][2].end_time %> -->
+                <% if @un_schedules[num - 1][2].is_confirmed %>
+                    確定済
+                <% else %>
+                    仮登録
+                <% end %>
+            <% end %>
+        </td>
+        <% if (num + @first_wday - 1).modulo(7) == 6 %>
+            </tr>
+            <% if num != @date_list.last %>
+                <tr>
+                <td>
+                    <%= link_to "週の予定", kerberos_sleep_show_path(:date => Date.new(@year,@month,weekday) - Date.new(@year,@month,weekday).wday ) %>
+                    <% weekday += 7 %>
+                </td>
+            <% end %>
+        <% end %>
+    <% end %>
+    <% if @end_wday != 6 %>
+        <% for num in @end_wday..5 do %>
+            <td></td>
+        <% end %>
+        </tr>
+    <% end %>
+</table>
+
+<% if user_signed_in? %>
+    <%= link_to "予定を追加・編集", kerberos_sleep_edit_path %>
+<% end %>
