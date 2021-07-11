@@ -1,0 +1,14 @@
+FROM python:3.7
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /code
+WORKDIR /code
+
+RUN pip install --upgrade pip
+RUN pip install Django==3.2.3
+RUN pip install djangorestframework==3.12.4
+RUN pip install django-webpack-loader
+RUN pip install django-cors-headers
+RUN pip install requests
+
+COPY ./Kerberos /code/

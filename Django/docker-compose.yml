@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  web:
+    image: senpainosenakadjango.azurecr.io/senpainosenakadjango
+    container_name: senpainosenakadjango
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"

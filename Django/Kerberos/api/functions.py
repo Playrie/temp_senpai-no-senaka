@@ -8,7 +8,7 @@ import json
 
 #送られてきたシフトを登録する
 def submit_rest_requests(input_data:dict):
-    kerbero_id = int(input_data["kerbero_id"])
+    kerbero_id = input_data['kerbero']
     head_name = input_data["head_name"]
 
     rest_requests = RestRequest.objects.filter(kerbero_id=kerbero_id,head_name=head_name,date__gte=date.today())
@@ -41,7 +41,7 @@ def submit_rest_requests(input_data:dict):
 def get_schedules(input_data:dict):
     appear_date = datetime.strptime(input_data["start_date"],'%Y-%m-%d').date()
     end_date = appear_date + timedelta(days=7)
-    kerbero_id = int(input_data["kerbero_id"])
+    kerbero_id = input_data["kerbero_id"]
 
     val = {"schedules":[]}
 
