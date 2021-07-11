@@ -1,0 +1,65 @@
+<%= @kerbero.name %>さん
+<div>
+    <% if user_signed_in? %>
+        <p>
+            <% if @kerbero.left_user_id == 0 %>
+                <%=  "左" + @kerbero.name + "さん、サインアップをしてください。" %>
+            <% elsif @kerbero.left_user_id == current_user.id %>
+                <%= link_to "頭を切り替える" , destroy_user_session_path, method: :delete %>
+            <% else %>
+                他の頭としてサインイン中
+            <% end %> 
+        </p>
+        <p>
+            <% if @kerbero.center_user_id == 0 %>
+                <%= "中" + @kerbero.name + "さん、サインアップをしてください。" %>
+            <% elsif @kerbero.center_user_id == current_user.id %>
+                <%= link_to "頭を切り替える" , destroy_user_session_path, method: :delete %>
+            <% else %>
+                他の頭としてサインイン中
+            <% end %> 
+        </p>
+        <p>
+            <% if @kerbero.right_user_id == 0 %>
+                <%= "右" + @kerbero.name + "さん、サインアップをしてください。" %>
+            <% elsif @kerbero.right_user_id == current_user.id %>
+                <%= link_to "頭を切り替える" , destroy_user_session_path, method: :delete %>
+            <% else %>
+                他の頭としてサインイン中
+            <% end %> 
+        </p>
+    <% else %>
+        <p>
+            <% if @kerbero.left_user_id == 0 %>
+                <%= link_to "左" + @kerbero.name + "さん、サインアップをしてください。", new_user_registration_path(:position => "left") %>
+            <% else %>
+                <%= link_to "左" + @kerbero.name + "さんとしてサインインする", new_user_session_path %>
+            <% end %> 
+        </p>
+        <p>
+            <% if @kerbero.center_user_id == 0 %>
+                <%= link_to "中" + @kerbero.name + "さん、サインアップをしてください。", new_user_registration_path(:position => "center") %>
+            <% else %>
+                <%= link_to "中" + @kerbero.name + "さんとしてサインインする", new_user_session_path %>
+            <% end %> 
+        </p>
+        <p>
+            <% if @kerbero.right_user_id == 0 %>
+                <%= link_to "右" + @kerbero.name + "さん、サインアップをしてください。", new_user_registration_path(:position => "right") %>
+            <% else %>
+                <%= link_to "右" + @kerbero.name + "さんとしてサインインする", new_user_session_path %>
+            <% end %> 
+        </p>
+    <% end %>
+</div>
+
+<% if @kerbero.is_confirmed %>
+    <div>
+        <table>
+            <tr><th>メニュー</th></tr>
+            <tr><td><%= link_to "睡眠シフト", kerberos_sleep_path %></td></tr>
+            <tr><td><%= link_to "エサログ", kerberos_eatlog_path %></td></tr>
+            <tr><td><%= link_to "マッチング", kerberos_matching_path %></td></tr>
+        </table>
+    </div>
+<% end %>

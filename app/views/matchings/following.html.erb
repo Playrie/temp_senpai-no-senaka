@@ -1,0 +1,8 @@
+<%= link_to "異性一覧に戻る", kerberos_matching_path%>
+<h4>フォロー一覧</h4>
+
+<% @kerberos.each do |k| %>
+    <div>
+        <%= link_to k.name + @keisho, kerberos_matching_path(:id => k.id) %>
+    </div>
+<% end %>
