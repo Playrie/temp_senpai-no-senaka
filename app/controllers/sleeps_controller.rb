@@ -81,19 +81,20 @@ class SleepsController < ApplicationController
             redirect_to kerberos_sleep_path
         else
             # ここのURLを変える
-            uri = URI.parse("https://www.y-hakopro.com/articles")
+            uri = URI.parse("http://20.78.224.237:8000/api/get_rest_schedules/")
             http = Net::HTTP.new(uri.host, uri.port)
-            http.use_ssl = true
+            http.use_ssl = false
             http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         
             data = JSON.generate({:start_date => params[:date], :kerbero_id => @kerbero.id})
-        
-            http.start do
-              req = Net::HTTP::Post.new(uri.path)
-              req.set_form_data(body: data)
-              response = http.request(req)
-            end
             render json: data
+        
+            # http.start do
+            #   req = Net::HTTP::Post.new(uri.path)
+            #   req.set_form_data(body: data)
+            #   response = http.request(req)
+            # end
+            # render json: {response.code => response.body}.to_json
         end
     end
 
@@ -101,19 +102,25 @@ class SleepsController < ApplicationController
         un_schedules = UndecidedSchedule.where(user_id: current_user.id, is_confirmed: false)
         shift = []
         un_schedules.each do |u|
-            hash = {:date => u.date}
-            if !u.start_time == "-----"
-                hash[:request] = true
-                hash[:start_time] = u.start_time
-                hash[:end_time] = u.end_time
-            end
+            hash = {:date => u.date, :request => true, :start_time => u.start_time, :end_time => u.end_time}
             shift.push(hash)
             u.is_confirmed = true
             u.save
         end
-        data = {:kerbero_id => current_user.kerbero_id, :head_name => current_user.position, :request => shift}
+        data = {:kerbero => current_user.kerbero_id, :head_name => current_user.position, :request => shift}
         json = data.to_json
-        render json: json
+        
+        uri = URI.parse("http://20.78.224.237:8000/api/register_rest_request/")
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = false
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    
+        http.start do
+          req = Net::HTTP::Post.new(uri.path)
+          req.set_form_data(body: json)
+          response = http.request(req)
+        end
+        render plain: {response.code => data}.to_json
     end
 
     private
