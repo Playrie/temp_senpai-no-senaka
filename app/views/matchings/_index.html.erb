@@ -1,7 +1,9 @@
 <%= link_to "フォロー一覧", kerberos_matching_following_path %>　<%= link_to "フォロワー一覧", kerberos_matching_follower_path %><br><br>
 オススメの異性
+<table>
 <% @kerberos.each do |k| %>
-    <div>
-        <%= link_to k.name + @keisho, kerberos_matching_path(:id => k.id) %>　<%= k.age.to_s + "歳" unless k.age.blank? %>
-    </div>
+    <tr>
+        <td><%= link_to k.name + @keisho, kerberos_matching_path(:id => k.id) %></td><td align="right"><%= k.age.to_s + "歳" unless k.age.blank? %></td>
+    </tr>
 <% end %>
+</table>

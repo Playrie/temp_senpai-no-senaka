@@ -1,5 +1,5 @@
 <header>
-    <h2>(仮)</h2>
+    <h2>DogDogDogPortal</h2>
     <ul>
         <% if (controller.controller_name == "tops" || controller.controller_name == "kerberos" || controller.controller_name == "heads" ) && controller.action_name == "index" %>
             <li></li>
@@ -20,8 +20,8 @@
             <li><%= link_to "ユーザー情報の編集", kerberos_edit_path %></li>
             <li><%= link_to "サインアウト", kerberos_logout_path, method: :post %></li>
         <% else %>
-            <li><%= link_to "サインイン", kerberos_login_path %></li>
-            <li><%= link_to "サインアップ",  kerberos_signup_path %></li>
+            <li><%= link_to "サインイン", kerberos_login_path, method: :get %></li>
+            <li><%= link_to "サインアップ",  kerberos_signup_path, method: :get %></li>
         <% end %>
     </ul>
 </header>
